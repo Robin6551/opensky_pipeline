@@ -1,0 +1,64 @@
+name: opensky_pipeline2
+
+x-airflow-common-2: &airflow-common-2
+  image: apache/airflow:2.8.1-python3.11
+  env_file:
+    - .env
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres2:5432/opensky2
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./scripts:/opt/airflow/scripts
+    - ./logs:/opt/airflow/logs
+  depends_on:
+    postgres2:
+      condition: service_healthy
+
+
+services:
+  postgres2:
+    image: postgres:15
+    container_name: opensky_postgres2
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data2:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      retries: 5
+
+  airflow_init_2:
+    <<: *airflow-common-2
+    container_name: airflow_init_2
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db init &&
+        airflow users create \
+          --username admin \
+          --password admin \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@example.com
+
+  airflow_webserver_3:
+    <<: *airflow-common-2
+    container_name: airflow_webserver_3
+    ports:
+      - "8082:8080"
+    command: airflow webserver
+
+  airflow_scheduler_3:
+    <<: *airflow-common-2
+    container_name: airflow_scheduler_3
+    command: airflow scheduler
+
+volumes:
+  postgres_data2:

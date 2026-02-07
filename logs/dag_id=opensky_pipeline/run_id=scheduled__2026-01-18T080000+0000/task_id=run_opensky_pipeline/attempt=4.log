@@ -1,0 +1,232 @@
+[2026-01-18T09:26:57.976+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: opensky_pipeline.run_opensky_pipeline scheduled__2026-01-18T08:00:00+00:00 [queued]>
+[2026-01-18T09:26:58.008+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: opensky_pipeline.run_opensky_pipeline scheduled__2026-01-18T08:00:00+00:00 [queued]>
+[2026-01-18T09:26:58.010+0000] {taskinstance.py:2170} INFO - Starting attempt 4 of 4
+[2026-01-18T09:26:58.070+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): run_opensky_pipeline> on 2026-01-18 08:00:00+00:00
+[2026-01-18T09:26:58.095+0000] {standard_task_runner.py:60} INFO - Started process 235 to run task
+[2026-01-18T09:26:58.110+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'opensky_pipeline', 'run_opensky_pipeline', 'scheduled__2026-01-18T08:00:00+00:00', '--job-id', '14', '--raw', '--subdir', 'DAGS_FOLDER/opensky_pipeline_dags.py', '--cfg-path', '/tmp/tmp8z6j9l33']
+[2026-01-18T09:26:58.125+0000] {standard_task_runner.py:88} INFO - Job 14: Subtask run_opensky_pipeline
+[2026-01-18T09:26:58.466+0000] {task_command.py:423} INFO - Running <TaskInstance: opensky_pipeline.run_opensky_pipeline scheduled__2026-01-18T08:00:00+00:00 [running]> on host e4a705181be0
+[2026-01-18T09:26:58.822+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='opensky_pipeline' AIRFLOW_CTX_TASK_ID='run_opensky_pipeline' AIRFLOW_CTX_EXECUTION_DATE='2026-01-18T08:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-01-18T08:00:00+00:00'
+[2026-01-18T09:27:00.816+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3371, in _wrap_pool_connect
+    return fn()
+           ^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 327, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 894, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 493, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 145, in _do_get
+    with util.safe_reraise():
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 143, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 273, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 388, in __init__
+    self.__connect()
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 690, in __connect
+    with util.safe_reraise():
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 686, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/create.py", line 574, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 598, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: connection to server at "postgres" (172.19.0.2), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/src/main.py", line 9, in main
+    upsert_dim_aircraft(dim_aircraft)
+  File "/opt/airflow/dags/src/load.py", line 33, in upsert_dim_aircraft
+    with engine.begin() as conn:
+         ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3153, in begin
+    conn = self.connect(close_with_result=close_with_result)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3325, in connect
+    return self._connection_cls(self, close_with_result=close_with_result)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 96, in __init__
+    else engine.raw_connection()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3404, in raw_connection
+    return self._wrap_pool_connect(self.pool.connect, _connection)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3374, in _wrap_pool_connect
+    Connection._handle_dbapi_exception_noconnection(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2208, in _handle_dbapi_exception_noconnection
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3371, in _wrap_pool_connect
+    return fn()
+           ^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 327, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 894, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 493, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 145, in _do_get
+    with util.safe_reraise():
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 143, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 273, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 388, in __init__
+    self.__connect()
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 690, in __connect
+    with util.safe_reraise():
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 686, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/create.py", line 574, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 598, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "postgres" (172.19.0.2), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+[2026-01-18T09:27:00.880+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=opensky_pipeline, task_id=run_opensky_pipeline, execution_date=20260118T080000, start_date=20260118T092657, end_date=20260118T092700
+[2026-01-18T09:27:00.912+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 14 for task run_opensky_pipeline ((psycopg2.OperationalError) connection to server at "postgres" (172.19.0.2), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8); 235)
+[2026-01-18T09:27:00.959+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-01-18T09:27:01.012+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-01-18T11:14:52.574+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: opensky_pipeline.run_opensky_pipeline scheduled__2026-01-18T08:00:00+00:00 [queued]>
+[2026-01-18T11:14:52.600+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: opensky_pipeline.run_opensky_pipeline scheduled__2026-01-18T08:00:00+00:00 [queued]>
+[2026-01-18T11:14:52.602+0000] {taskinstance.py:2170} INFO - Starting attempt 4 of 4
+[2026-01-18T11:14:52.636+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): run_opensky_pipeline> on 2026-01-18 08:00:00+00:00
+[2026-01-18T11:14:52.650+0000] {standard_task_runner.py:60} INFO - Started process 179 to run task
+[2026-01-18T11:14:52.657+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'opensky_pipeline', 'run_opensky_pipeline', 'scheduled__2026-01-18T08:00:00+00:00', '--job-id', '11', '--raw', '--subdir', 'DAGS_FOLDER/opensky_pipeline_dags.py', '--cfg-path', '/tmp/tmp8u7xzgp4']
+[2026-01-18T11:14:52.662+0000] {standard_task_runner.py:88} INFO - Job 11: Subtask run_opensky_pipeline
+[2026-01-18T11:14:52.913+0000] {task_command.py:423} INFO - Running <TaskInstance: opensky_pipeline.run_opensky_pipeline scheduled__2026-01-18T08:00:00+00:00 [running]> on host 96f76b6d2532
+[2026-01-18T11:14:53.141+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='opensky_pipeline' AIRFLOW_CTX_TASK_ID='run_opensky_pipeline' AIRFLOW_CTX_EXECUTION_DATE='2026-01-18T08:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-01-18T08:00:00+00:00'
+[2026-01-18T11:14:55.221+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 1000, in do_executemany
+    cursor.executemany(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "dim_aircraft" does not exist
+LINE 2:         INSERT INTO dim_aircraft (aircraft_icao, callsign, o...
+                            ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/src/main.py", line 9, in main
+    upsert_dim_aircraft(dim_aircraft)
+  File "/opt/airflow/dags/src/load.py", line 34, in upsert_dim_aircraft
+    conn.execute(sql, df.to_dict(orient="records"))
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 1000, in do_executemany
+    cursor.executemany(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "dim_aircraft" does not exist
+LINE 2:         INSERT INTO dim_aircraft (aircraft_icao, callsign, o...
+                            ^
+
+[SQL: 
+        INSERT INTO dim_aircraft (aircraft_icao, callsign, origin_country)
+        VALUES (%(aircraft_icao)s, %(callsign)s, %(origin_country)s)
+        ON CONFLICT (aircraft_icao) DO UPDATE
+        SET
+            callsign = EXCLUDED.callsign,
+            origin_country = EXCLUDED.origin_country;
+    ]
+[parameters: ({'aircraft_icao': '4b1815', 'callsign': 'SWR5QD  ', 'origin_country': 'Switzerland'}, {'aircraft_icao': '80162c', 'callsign': 'AXB1034 ', 'origin_country': 'India'}, {'aircraft_icao': '80162d', 'callsign': 'AXB1340 ', 'origin_country': 'India'}, {'aircraft_icao': '7c6b2f', 'callsign': 'JST988  ', 'origin_country': 'Australia'}, {'aircraft_icao': '39de4c', 'callsign': 'TVF55NZ ', 'origin_country': 'France'}, {'aircraft_icao': '801641', 'callsign': 'AXB2872 ', 'origin_country': 'India'}, {'aircraft_icao': '488284', 'callsign': 'SPAWE   ', 'origin_country': 'Poland'}, {'aircraft_icao': 'a77ec5', 'callsign': 'EJA582  ', 'origin_country': 'United States'}  ... displaying 10 of 5356 total bound parameter sets ...  {'aircraft_icao': 'a6d83c', 'callsign': 'DAL473  ', 'origin_country': 'United States'}, {'aircraft_icao': '48d48d', 'callsign': 'JDI85H  ', 'origin_country': 'Poland'})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2026-01-18T11:14:55.349+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=opensky_pipeline, task_id=run_opensky_pipeline, execution_date=20260118T080000, start_date=20260118T111452, end_date=20260118T111455
+[2026-01-18T11:14:55.465+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 11 for task run_opensky_pipeline ((psycopg2.errors.UndefinedTable) relation "dim_aircraft" does not exist
+LINE 2:         INSERT INTO dim_aircraft (aircraft_icao, callsign, o...
+                            ^
+
+[SQL: 
+        INSERT INTO dim_aircraft (aircraft_icao, callsign, origin_country)
+        VALUES (%(aircraft_icao)s, %(callsign)s, %(origin_country)s)
+        ON CONFLICT (aircraft_icao) DO UPDATE
+        SET
+            callsign = EXCLUDED.callsign,
+            origin_country = EXCLUDED.origin_country;
+    ]
+[parameters: ({'aircraft_icao': '4b1815', 'callsign': 'SWR5QD  ', 'origin_country': 'Switzerland'}, {'aircraft_icao': '80162c', 'callsign': 'AXB1034 ', 'origin_country': 'India'}, {'aircraft_icao': '80162d', 'callsign': 'AXB1340 ', 'origin_country': 'India'}, {'aircraft_icao': '7c6b2f', 'callsign': 'JST988  ', 'origin_country': 'Australia'}, {'aircraft_icao': '39de4c', 'callsign': 'TVF55NZ ', 'origin_country': 'France'}, {'aircraft_icao': '801641', 'callsign': 'AXB2872 ', 'origin_country': 'India'}, {'aircraft_icao': '488284', 'callsign': 'SPAWE   ', 'origin_country': 'Poland'}, {'aircraft_icao': 'a77ec5', 'callsign': 'EJA582  ', 'origin_country': 'United States'}  ... displaying 10 of 5356 total bound parameter sets ...  {'aircraft_icao': 'a6d83c', 'callsign': 'DAL473  ', 'origin_country': 'United States'}, {'aircraft_icao': '48d48d', 'callsign': 'JDI85H  ', 'origin_country': 'Poland'})]
+(Background on this error at: https://sqlalche.me/e/14/f405); 179)
+[2026-01-18T11:14:55.589+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-01-18T11:14:55.804+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

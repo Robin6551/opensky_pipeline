@@ -1,0 +1,86 @@
+[2026-01-18T09:44:09.695+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: opensky_pipeline.run_opensky_pipeline manual__2026-01-18T09:38:46.166684+00:00 [queued]>
+[2026-01-18T09:44:09.710+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: opensky_pipeline.run_opensky_pipeline manual__2026-01-18T09:38:46.166684+00:00 [queued]>
+[2026-01-18T09:44:09.711+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-01-18T09:44:09.746+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): run_opensky_pipeline> on 2026-01-18 09:38:46.166684+00:00
+[2026-01-18T09:44:09.767+0000] {standard_task_runner.py:60} INFO - Started process 292 to run task
+[2026-01-18T09:44:09.786+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'opensky_pipeline', 'run_opensky_pipeline', 'manual__2026-01-18T09:38:46.166684+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/opensky_pipeline_dags.py', '--cfg-path', '/tmp/tmpfa65he4p']
+[2026-01-18T09:44:09.806+0000] {standard_task_runner.py:88} INFO - Job 5: Subtask run_opensky_pipeline
+[2026-01-18T09:44:10.050+0000] {task_command.py:423} INFO - Running <TaskInstance: opensky_pipeline.run_opensky_pipeline manual__2026-01-18T09:38:46.166684+00:00 [running]> on host 96f76b6d2532
+[2026-01-18T09:44:10.238+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='opensky_pipeline' AIRFLOW_CTX_TASK_ID='run_opensky_pipeline' AIRFLOW_CTX_EXECUTION_DATE='2026-01-18T09:38:46.166684+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-18T09:38:46.166684+00:00'
+[2026-01-18T09:44:12.548+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 1000, in do_executemany
+    cursor.executemany(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "dim_aircraft" does not exist
+LINE 2:         INSERT INTO dim_aircraft (aircraft_icao, callsign, o...
+                            ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/src/main.py", line 9, in main
+    upsert_dim_aircraft(dim_aircraft)
+  File "/opt/airflow/dags/src/load.py", line 34, in upsert_dim_aircraft
+    conn.execute(sql, df.to_dict(orient="records"))
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.11/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 1000, in do_executemany
+    cursor.executemany(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "dim_aircraft" does not exist
+LINE 2:         INSERT INTO dim_aircraft (aircraft_icao, callsign, o...
+                            ^
+
+[SQL: 
+        INSERT INTO dim_aircraft (aircraft_icao, callsign, origin_country)
+        VALUES (%(aircraft_icao)s, %(callsign)s, %(origin_country)s)
+        ON CONFLICT (aircraft_icao) DO UPDATE
+        SET
+            callsign = EXCLUDED.callsign,
+            origin_country = EXCLUDED.origin_country;
+    ]
+[parameters: ({'aircraft_icao': '39de4f', 'callsign': 'TVF8938 ', 'origin_country': 'France'}, {'aircraft_icao': '39de4e', 'callsign': 'TVF69FP ', 'origin_country': 'France'}, {'aircraft_icao': '4b1815', 'callsign': 'SWR5QD  ', 'origin_country': 'Switzerland'}, {'aircraft_icao': '398239', 'callsign': 'FHARZ   ', 'origin_country': 'France'}, {'aircraft_icao': '4b1817', 'callsign': 'SWR245T ', 'origin_country': 'Switzerland'}, {'aircraft_icao': '7c35e8', 'callsign': 'KXM     ', 'origin_country': 'Australia'}, {'aircraft_icao': 'ac494e', 'callsign': 'CMD3    ', 'origin_country': 'United States'}, {'aircraft_icao': '7c6b2f', 'callsign': 'JST988  ', 'origin_country': 'Australia'}  ... displaying 10 of 4830 total bound parameter sets ...  {'aircraft_icao': '458664', 'callsign': 'CAT607  ', 'origin_country': 'Denmark'}, {'aircraft_icao': '458665', 'callsign': 'CAT9502 ', 'origin_country': 'Denmark'})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2026-01-18T09:44:12.699+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=opensky_pipeline, task_id=run_opensky_pipeline, execution_date=20260118T093846, start_date=20260118T094409, end_date=20260118T094412
+[2026-01-18T09:44:12.722+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 5 for task run_opensky_pipeline ((psycopg2.errors.UndefinedTable) relation "dim_aircraft" does not exist
+LINE 2:         INSERT INTO dim_aircraft (aircraft_icao, callsign, o...
+                            ^
+
+[SQL: 
+        INSERT INTO dim_aircraft (aircraft_icao, callsign, origin_country)
+        VALUES (%(aircraft_icao)s, %(callsign)s, %(origin_country)s)
+        ON CONFLICT (aircraft_icao) DO UPDATE
+        SET
+            callsign = EXCLUDED.callsign,
+            origin_country = EXCLUDED.origin_country;
+    ]
+[parameters: ({'aircraft_icao': '39de4f', 'callsign': 'TVF8938 ', 'origin_country': 'France'}, {'aircraft_icao': '39de4e', 'callsign': 'TVF69FP ', 'origin_country': 'France'}, {'aircraft_icao': '4b1815', 'callsign': 'SWR5QD  ', 'origin_country': 'Switzerland'}, {'aircraft_icao': '398239', 'callsign': 'FHARZ   ', 'origin_country': 'France'}, {'aircraft_icao': '4b1817', 'callsign': 'SWR245T ', 'origin_country': 'Switzerland'}, {'aircraft_icao': '7c35e8', 'callsign': 'KXM     ', 'origin_country': 'Australia'}, {'aircraft_icao': 'ac494e', 'callsign': 'CMD3    ', 'origin_country': 'United States'}, {'aircraft_icao': '7c6b2f', 'callsign': 'JST988  ', 'origin_country': 'Australia'}  ... displaying 10 of 4830 total bound parameter sets ...  {'aircraft_icao': '458664', 'callsign': 'CAT607  ', 'origin_country': 'Denmark'}, {'aircraft_icao': '458665', 'callsign': 'CAT9502 ', 'origin_country': 'Denmark'})]
+(Background on this error at: https://sqlalche.me/e/14/f405); 292)
+[2026-01-18T09:44:12.790+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-01-18T09:44:12.842+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
